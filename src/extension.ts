@@ -13,11 +13,46 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('extension.trimFirstTokens', () => {
 		// The code you place here will be executed every time your command is executed
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
+		if (!vscode.window.activeTextEditor) {
+			return;
+		}
+
+		const editor = vscode.window.activeTextEditor;
+	
+		if (editor.selection.isEmpty) {
+			return;
+		}
+		
+		let text = editor.document.getText(editor.selection);
+		
+		var idx_cl = -1, idx_nl = -1;
+		var idx_tk;
+		while ((idx_nl = text.indexOf('\n', idx_cl+1)) !== -1){
+			idx_tk = text.indexOf(' ' || '\t', idx_cl+1);
+			while(text[++idx_tk] === ' ') { }
+			if(idx_tk < idx_nl)
+			{
+				text = text.substr(0,idx_cl+1) + text.substr(idx_tk);				
+			}
+			idx_cl = text.indexOf('\n', idx_cl+1);
+		}
+
+		if( (idx_tk = text.indexOf(' ' || '\t', idx_cl+1)) !== -1)
+		{
+			text = text.substr(0,idx_cl+1) + text.substr(idx_tk+1);
+		}
+		
+		editor.edit((editBuilder) => {
+			editBuilder.replace(editor.selection, text);
+		}).then(success => {
+			if (success) {
+				editor.selection.active = editor.selection.anchor;
+			}
+		});
+		
 	});
 
 	context.subscriptions.push(disposable);
