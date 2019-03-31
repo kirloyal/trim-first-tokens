@@ -1,6 +1,7 @@
 {
 	"name": "trim-first-tokens",
 	"displayName": "Trim First Tokens",
+	"publisher": "OhHun-Kwon",
 	"description": "trim first tokens(line numbers, prompts, etc.) for each selected line",
 	"version": "0.0.1",
 	"engines": {
@@ -27,6 +28,10 @@
 		"watch": "tsc -watch -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kirloyal/trim-first-tokens.git"
 	},
 	"devDependencies": {
 		"typescript": "^3.3.1",
