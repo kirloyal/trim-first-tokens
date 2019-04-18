@@ -20,33 +20,23 @@ export function activate(context: vscode.ExtensionContext) {
 			return;
 		}
 
-		const editor = vscode.window.activeTextEditor;
+		let editor = vscode.window.activeTextEditor;
 	
 		if (editor.selection.isEmpty) {
 			return;
 		}
 		
-		let text = editor.document.getText(editor.selection);
-		
-		var idx_cl = -1, idx_nl = -1;
-		var idx_tk;
-		while ((idx_nl = text.indexOf('\n', idx_cl+1)) !== -1){
-			idx_tk = text.indexOf(' ' || '\t', idx_cl+1);
-			while(text[++idx_tk] === ' ') { }
-			if(idx_tk < idx_nl)
-			{
-				text = text.substr(0,idx_cl+1) + text.substr(idx_tk);				
-			}
-			idx_cl = text.indexOf('\n', idx_cl+1);
-		}
-
-		if( (idx_tk = text.indexOf(' ' || '\t', idx_cl+1)) !== -1)
-		{
-			text = text.substr(0,idx_cl+1) + text.substr(idx_tk+1);
-		}
-		
 		editor.edit((editBuilder) => {
-			editBuilder.replace(editor.selection, text);
+			for(var i=editor.selection.start.line ; i <= editor.selection.end.line ; i++ )
+			{
+				var text = editor.document.lineAt(i).text;
+				var idx_tk;
+				if( (idx_tk = text.indexOf(' ' || '\t')) !== -1)
+				{
+					editBuilder.replace(editor.document.lineAt(i).range, text.substr(idx_tk+1));	
+				}
+				
+			}
 		}).then(success => {
 			if (success) {
 				editor.selection.active = editor.selection.anchor;
