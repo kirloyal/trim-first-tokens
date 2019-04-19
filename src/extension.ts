@@ -31,10 +31,12 @@ export function activate(context: vscode.ExtensionContext) {
 			{
 				var text = editor.document.lineAt(i).text;
 				var idx_tk;
+				var text_replace = "";
 				if( (idx_tk = text.indexOf(' ' || '\t')) !== -1)
 				{
-					editBuilder.replace(editor.document.lineAt(i).range, text.substr(idx_tk+1));	
+					text_replace = text.substr(idx_tk+1);
 				}
+				editBuilder.replace(editor.document.lineAt(i).range, text_replace);	
 				
 			}
 		}).then(success => {
@@ -42,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
 				editor.selection.active = editor.selection.anchor;
 			}
 		});
-		
+		vscode.window.showInformationMessage('Trim!');
 	});
 
 	context.subscriptions.push(disposable);
