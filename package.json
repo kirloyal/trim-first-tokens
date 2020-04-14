@@ -3,7 +3,7 @@
 	"displayName": "Trim First Tokens",
 	"publisher": "OhHun-Kwon",
 	"description": "trim first tokens(line numbers, prompts, etc.) for each selected line",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"engines": {
 		"vscode": "^1.32.0"
 	},
@@ -34,13 +34,14 @@
 		"url": "https://github.com/kirloyal/trim-first-tokens.git"
 	},
 	"devDependencies": {
-		"typescript": "^3.3.1",
-		"vscode": "^1.1.28",
-		"tslint": "^5.12.1",
-		"@types/node": "^10.12.21",
-		"@types/mocha": "^2.2.42"
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^10.14.9",
+		"tslint": "^5.17.0",
+		"typescript": "^3.5.1",
+		"vscode": "^1.1.34"
 	},
 	"dependencies": {
-		"js-yaml": "^3.13.1"
+		"js-yaml": "^3.13.1",
+		"minimist": ">=0.2.1"
 	}
 }
